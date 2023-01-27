@@ -53,21 +53,23 @@ After successfully running all the previous command you will find the resulting 
 Once we have a valid proof and the verification key from the Merkle Root proof, we need to compile the recursive proof and parse the arguments of `merkle_tree/proof.json` and `merkle_tree/verification.key` to generate a valid witness in the "parent" proof. 
 For that:
 
-1. Open a new terminal window on your terminal and run the command below from the root of this tutorial. This will generate the valid arguments to generate a valid witness and the final proof. The arguments for the recursive proof will be stored in `gm17.json`.
-    ```sh
-    $ echo "[\n$(cat merkle_proof/proof.json | jq '{proof, inputs}'), $(cat merkle_proof/verification.key | jq 'del(.scheme,.curve)')\n]" > jq > gm17.json
-    ```
-
-2. Back in the docker container, go back to the parent directory of this tutorial:
+1. Back in the docker container, go back to the parent directory of this tutorial:
     ```sh
     $ cd ..
     ```
 
-3. Compile & setup the recursive proof with the curve `bw6_761`, `gm17` proving-scheme and `ark` as backend
+1. Compile & setup the recursive proof with the curve `bw6_761`, `gm17` proving-scheme and `ark` as backend
    ```sh
    $ zokrates compile --curve bw6_761 -i recursive_proof.zok
    $ zokrates setup --proving-scheme gm17 --backend ark
    ```
+
+1.  A sample of valid arguments for the recursive proof is stored in `gm17.json`.
+
+    Alternatively, you can put together the valid arguments by running the following command: 
+    ```sh
+    $ echo "[\n$(cat merkle_proof/proof.json | jq '{proof, inputs}'), $(cat merkle_proof/verification.key | jq 'del(.scheme,.curve)')\n]" > jq > gm17.json
+    ```
 
 4. Open a new terminal window on your terminal and run the command below outside of docker. This will generate the valid arguments to generate a valid witness and the final proof. The arguments for the recursive proof will be stored in `gm17.json`.
     ```sh
