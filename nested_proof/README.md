@@ -7,7 +7,7 @@ In this tutorial we will verify the correctnes of a zk-SNARK inside another zokr
 Lets start by running an interactive container locally were zokrates is installed. From this directory run the following commands:
 
 ```sh
-~/tutorials/nested_proof$ docker run -it -v "$(pwd)":/home/zokrates/src zokrates/zokrates:0.8.3
+user@~/tutorials/nested_proof$ docker run -it -v "$(pwd)":/home/zokrates/src zokrates/zokrates:0.8.3
 zokrates@334cd117ed4c:~$ cd src/
 ```
 
@@ -68,15 +68,10 @@ For that:
 
     Alternatively, you can put together the valid arguments by running the following command: 
     ```sh
-    $ echo "[\n$(cat merkle_proof/proof.json | jq '{proof, inputs}'), $(cat merkle_proof/verification.key | jq 'del(.scheme,.curve)')\n]" > jq > gm17.json
+    user@~/tutorials/nested_proof$ echo "[\n$(cat merkle_proof/proof.json | jq '{proof, inputs}'), $(cat merkle_proof/verification.key | jq 'del(.scheme,.curve)')\n]" > jq > gm17.json
     ```
 
-4. Open a new terminal window on your terminal and run the command below outside of docker. This will generate the valid arguments to generate a valid witness and the final proof. The arguments for the nested proof will be stored in `gm17.json`.
-    ```sh
-    $ echo "[\n$(cat merkle_proof/proof.json | jq '{proof, inputs}'), $(cat merkle_proof/verification.key | jq 'del(.scheme,.curve)')\n]" > jq > gm17.json
-    ```
-
-5. Compute a valid witness from the `gm17.json` file and generate the json proof.
+2. Compute a valid witness from the `gm17.json` file and generate the json proof.
 To be found in `proof.json`.
    ```sh
    $ zokrates compute-witness --abi --stdin < gm17.json
