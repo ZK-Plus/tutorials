@@ -4,11 +4,11 @@ In this tutorial we will verify the correctnes of a zk-SNARK inside another zokr
 
 ## Set Up
 
-Lets start by running an interactive container locally were zokrates is installed.
+Lets start by running an interactive container locally were zokrates is installed. From this directory run the following commands:
 
 ```sh
-$ docker run -it -v "$(pwd)":/home/zokrates/src zokrates/zokrates:0.8.3
-$ cd src
+~/tutorials/nested_proof$ docker run -it -v "$(pwd)":/home/zokrates/src zokrates/zokrates:0.8.3
+zokrates@334cd117ed4c:~$ cd src/
 ```
 
 Check the [zokrates docs](https://zokrates.github.io/) for other installation options appart from Docker.
@@ -20,7 +20,7 @@ The following instructions guide to genera a valid Merkle Root proof, which will
 
 1. Go to the proof's subfolder
     ```sh
-    $ cd merkle_proof
+    zokrates@5a17de6c8f8f:~/src$ cd merkle_proof
     ```
 
 2. Compile the Merkle Root proof with the curve `bls12_377` 
@@ -49,29 +49,29 @@ The following instructions guide to genera a valid Merkle Root proof, which will
 
 After successfully running all the previous command you will find the resulting SNARK in `proof.json` file.
 
-## Compile and generate the recursive proof
-Once we have a valid proof and the verification key from the Merkle Root proof, we need to compile the recursive proof and parse the arguments of `merkle_tree/proof.json` and `merkle_tree/verification.key` to generate a valid witness in the "parent" proof. 
+## Compile and generate the nested proof
+Once we have a valid proof and the verification key from the Merkle Root proof, we need to compile the nested proof and parse the arguments of `merkle_tree/proof.json` and `merkle_tree/verification.key` to generate a valid witness in the "parent" proof. 
 For that:
 
 1. Back in the docker container, go back to the parent directory of this tutorial:
     ```sh
-    $ cd ..
+    zokrates@5a17de6c8f8f:~/src/merkle_proof$ cd ..
     ```
 
-1. Compile & setup the recursive proof with the curve `bw6_761`, `gm17` proving-scheme and `ark` as backend
+1. Compile & setup the nested proof with the curve `bw6_761`, `gm17` proving-scheme and `ark` as backend
    ```sh
-   $ zokrates compile --curve bw6_761 -i recursive_proof.zok
+   $ zokrates compile --curve bw6_761 -i nested_proof.zok
    $ zokrates setup --proving-scheme gm17 --backend ark
    ```
 
-1.  A sample of valid arguments for the recursive proof is stored in `gm17.json`.
+1.  A sample of valid arguments for the nested proof is stored in `gm17.json`.
 
     Alternatively, you can put together the valid arguments by running the following command: 
     ```sh
     $ echo "[\n$(cat merkle_proof/proof.json | jq '{proof, inputs}'), $(cat merkle_proof/verification.key | jq 'del(.scheme,.curve)')\n]" > jq > gm17.json
     ```
 
-4. Open a new terminal window on your terminal and run the command below outside of docker. This will generate the valid arguments to generate a valid witness and the final proof. The arguments for the recursive proof will be stored in `gm17.json`.
+4. Open a new terminal window on your terminal and run the command below outside of docker. This will generate the valid arguments to generate a valid witness and the final proof. The arguments for the nested proof will be stored in `gm17.json`.
     ```sh
     $ echo "[\n$(cat merkle_proof/proof.json | jq '{proof, inputs}'), $(cat merkle_proof/verification.key | jq 'del(.scheme,.curve)')\n]" > jq > gm17.json
     ```
