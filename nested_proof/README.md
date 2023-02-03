@@ -3,8 +3,8 @@
 In this tutorial we will verify the correctness of a zk-SNARK within another ZoKrates program.
 
 This tutorial requires domain specific knowledge of ZoKrates.
-We recommend that you read our basic tutorials if you are new to zk-SNARKs or ZoKrates.
-This tutorial assumes that you have installed ZoKrates on your local machine, please see the installation guide if this is not the case.
+We recommend that you read our [basic tutorials](https://zokratesplus.github.io/tutorials/) if you are new to zk-SNARKs or ZoKrates.
+This tutorial assumes that you have installed ZoKrates on your local machine, please see the [installation guide](https://zokrates.github.io/gettingstarted.html#installation) if this is not the case.
 
 ## Compiling & Generating the Merkle Tree Proof
 First we need to create a zk-SNARK proof with zokrates, the correctness of which will be verified later by another zokrates program.
