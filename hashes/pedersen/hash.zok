@@ -1,0 +1,7 @@
+import "hashes/pedersen/512bit" as hash;
+
+def main(u32[8] treeRoot ,private u32[16] s) {
+    
+    u32[8] digest = hash(s);
+	assert(digest == treeRoot);
+}

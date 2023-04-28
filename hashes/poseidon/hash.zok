@@ -1,0 +1,8 @@
+// example taken from zokrates documentation https://github.com/Zokrates/ZoKrates/blob/deploy/zokrates_cli/examples/merkleTree/sha256PathProof3.zok
+import "hashes/poseidon/poseidon" as hash;
+
+def main(field treeRoot ,private field[3] s) {
+    
+    field digest = hash(s);
+	assert(digest == treeRoot);
+}
