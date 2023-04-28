@@ -1,2 +1,12 @@
 # OS temps
 .DS_Store
+
+# ignore tmp files
+**/abi.json
+**/out
+**/witness
+**/*.r1cs
+**/*.wtns
+**/proving.key
+**/verification.key
+**/proof.json
