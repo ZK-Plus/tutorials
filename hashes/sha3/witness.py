@@ -1,7 +1,7 @@
 import hashlib
 
 
-def sha256(preimage: bytearray):
+def sha3(preimage: bytearray):
     return hashlib.sha3_512(preimage).digest()
 
 def sha3_to_u8_array(val: bytearray) -> list[str]:
@@ -10,7 +10,7 @@ def sha3_to_u8_array(val: bytearray) -> list[str]:
     return u32_array
 
 msg = (5).to_bytes(32, "big", signed=False)
-root = sha256(msg)
+root = sha3(msg)
 
 print(*sha3_to_u8_array(root), *sha3_to_u8_array(msg))
 
