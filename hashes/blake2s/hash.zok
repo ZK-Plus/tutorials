@@ -1,7 +1,7 @@
-import "hashes/blake2/blake2s" as hash;
+import "hashes/blake2/blake2s" as blake2s;
 
-def main(u32[8] treeRoot ,private u32[1][16] s) {
-    
-    u32[8] digest = hash(s);
-	assert(digest == treeRoot);
+def main(u32[8] hash ,private u32[1][16] msg) {
+
+    u32[8] digest = blake2s(msg);
+    assert(digest == hash);
 }

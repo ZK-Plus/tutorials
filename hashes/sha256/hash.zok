@@ -1,8 +1,7 @@
-// example taken from zokrates documentation https://github.com/Zokrates/ZoKrates/blob/deploy/zokrates_cli/examples/merkleTree/sha256PathProof3.zok
-import "hashes/sha256/512bitPadded" as hash;
+import "hashes/sha256/sha256" as sha256;
 
-def main(u32[8] treeRoot ,private u32[2][8] s) {
+def main(u32[8] hash ,private u32[2][8] msg) {
 
-    u32[8] digest = hash(s[0], s[1]);
-	assert(digest == treeRoot);
+    u32[8] digest = sha256(msg[0], msg[1]);
+    assert(digest == hash);
 }

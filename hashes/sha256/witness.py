@@ -10,7 +10,6 @@ def sha256_to_u32_array(val: bytearray) -> list[str]:
     return u32_array
 
 msg = (5).to_bytes(64, "big", signed=False)
-root = sha256(msg)
+hash = sha256(msg)
 
-print(*sha256_to_u32_array(root), *sha256_to_u32_array(msg))
-
+print(*sha256_to_u32_array(hash), *sha256_to_u32_array(msg))

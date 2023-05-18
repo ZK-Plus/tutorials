@@ -10,7 +10,6 @@ def blake2s_to_u32_array(val: bytearray) -> list[str]:
     return u32_array
 
 msg = (5).to_bytes(64, "big", signed=False)
-root = blake2s(msg)
+hash = blake2s(msg)
 
-print(*blake2s_to_u32_array(root), *blake2s_to_u32_array(msg))
-
+print(*blake2s_to_u32_array(hash), *blake2s_to_u32_array(msg))
