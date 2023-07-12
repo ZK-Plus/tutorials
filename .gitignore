@@ -1,12 +1,11 @@
 # OS temps
 .DS_Store
 
-# ignore tmp files
-**/abi.json
-**/out
-**/witness
-**/*.r1cs
+
+# ZoKrates intermediates 
+**/*.json
+**/*.key
 **/*.wtns
-**/proving.key
-**/verification.key
-**/proof.json
+**/witness
+**/out
+**/*.r1cs
