@@ -1,44 +1,32 @@
 import hashlib
 
 
-def zok_hash(lhs, rhs):
-    preimage = int.to_bytes(lhs, 32, "big") + int.to_bytes(rhs, 32, "big")
-    return hashlib.sha256(preimage).digest() 
+def hash(value: bytes) -> bytes:
+    return hashlib.sha256(value).digest()
 
-def zok_out_u32(val):
-    M0 = val.hex()[:64]
-    M1 = val.hex()[64:]
+
+def hash_to_u32(val: bytes) -> str:
+    M0 = val.hex()[:128]
     b0 = [str(int(M0[i:i+8], 16)) for i in range(0,len(M0), 8)]
-    b1 = [str(int(M1[i:i+8], 16)) for i in range(0,len(M1), 8)]
-    return " ".join(b0 + b1)
+    return " ".join(b0)
 
-leaf0 = 1337
-leaf1 = 7
-leaf2 = 1989
-leaf3 = 51966
-leaf4 = 1234
-leaf5 = 9999
-leaf6 = 0
-leaf7 = 6
 
-h0 = zok_hash(leaf0, leaf1)
-h1 = zok_hash(leaf2, leaf3)
-h2 = zok_hash(leaf4, leaf5)
-h3 = zok_hash(leaf6, leaf7)
+if __name__ == '__main__':
+    original_data = [1337, 7, 1989, 51966, 1234, 9999, 0, 6]
+    hashed_leafs = [hash(int.to_bytes(leaf, 64, "big")) for leaf in original_data]
 
-h00 = hashlib.sha256(h0 + h1).digest()
-h01 = hashlib.sha256(h2 + h3).digest()
+    h0 = hash(hashed_leafs[0] + hashed_leafs[1])
+    h1 = hash(hashed_leafs[2] + hashed_leafs[3])
+    h2 = hash(hashed_leafs[4] + hashed_leafs[5])
+    h3 = hash(hashed_leafs[6] + hashed_leafs[7])
 
-root = hashlib.sha256(h00 + h01).digest()
+    h00 = hashlib.sha256(h0 + h1).digest()
+    h01 = hashlib.sha256(h2 + h3).digest()
 
-msg = hashlib.sha256(int.to_bytes(leaf1, 64, "big")).digest()
-msg += msg
+    root = hashlib.sha256(h00 + h01).digest()
 
-leaf0 = [0, 0, 0, 0, 0, 0, 0, leaf0]
-leaf1 = [0, 0, 0, 0, 0, 0, 0, leaf1]
+    directionSelector = "1 0 0"
 
-directionSelector = "1 0 0"
+    path = " ".join([hash_to_u32(node) for node in [hashed_leafs[0], h1, h01]])
 
-path = [" ".join([str(i) for i in leaf0]), zok_out_u32(h1), zok_out_u32(h01)]
-
-print(zok_out_u32(root) + " " + " ".join([str(i) for i in leaf1]) + " " + directionSelector + " " + " ".join(path) + " ")
+    print(hash_to_u32(root) + " " + hash_to_u32(hashed_leafs[1]) + " " + directionSelector + " " + path)
