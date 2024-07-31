@@ -1,6 +1,7 @@
 # OS temps
 .DS_Store
 
+
 # ZoKrates intermediates 
 **/*.json
 **/*.key
